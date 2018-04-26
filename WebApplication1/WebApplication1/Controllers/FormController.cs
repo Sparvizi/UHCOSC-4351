@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult FormOne(string Address1, string Address2, string City, string State, string ZipCode)
         {
-            return View("NewPage");
+            return View("Index");
         }
     }
 }
