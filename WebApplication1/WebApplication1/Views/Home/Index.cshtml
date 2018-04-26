@@ -1,18 +1,70 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 
-
+ 
 }
 
 
 <head>
     <title>Title of the document</title>
+
+    <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
 </head>
 
 <body>
-    <div>
-        <div id="container"></div>
-        <button onclick="myFunction()">Click me</button>
+    <h1 >SoftWare Engineering </h1>
+    <form action="/my-handling-form-page" method="post">
+        <div class="form-group">
+            <label for="name">Address1:</label>
+            <input class="form-control" type="text" id="Address1" name="user_name">
+            <span id="helpBlock2" class="help-block">please enter a valid Address in the US </span>
+           
+        </div>
+        <div class="form-group">
+            <label for="name">Address2:</label>
+            <input class="form-control" type="text" id="Address2" name="user_name">
+            <span id="helpBlock2" class="help-block">please enter a valid Address in the Us</span>
+        </div>
+        <div class="form-group">
+            <label for="name">City:</label>
+            <input class="form-control" type="text" id="City" name="user_name">
+            <span id="helpBlock2" class="help-block">please enter a valid City in the US</span>
+        </div>
+        <div class="form-group">
+            <label for="name">State:</label>
+            <input class="form-control" type="text" id="State" name="user_name">
+            <span id="helpBlock2" class="help-block">Should be Two Letter</span>
+        </div>
+        <div class="form-group">
+            <label for="mail">ZipCode 5:</label>
+            <input class="form-control" type="email" id="ZipCode5" name="user_mail">
+            <span id="helpBlock2" class="help-block">please enter 5 digit </span>
+        </div>
+        <div class="form-group">
+            <label for="name">ZipCode 4:</label>
+            <input class="form-control" type="text" id="ZipCode4" name="user_name">
+            <span id="helpBlock2" class="help-block">please enter 5 digit</span>
+        </div>
+        <div class="form-group">
+            <button  class="btn btn-success" type="button" onclick="myFunction()">Submit</button>
+            <button class="btn btn-info" id="reload" type="button" >Refresh result</button>
+        </div>
+    </form>
+
+
+
+
+        <div id="display">
+        <h1 id="container"></h1>
+        <h2 id="moreInfo"></h2>
+        <div id="Cor_Address"></div>
+        <div id="Cor_City"></div>
+        <div id="Cor_State"></div>
+        <div id="Cor_Zip5"></div>
+        <div id="Cor_Zip4"></div>
+
+        <div class ="container" id="Error"></div>
     </div>
 
 </body>
@@ -22,33 +74,73 @@
 @section Scripts{
     <script>
 
+        $("#reload").click(function () {
 
+            $("#display").load(" #display")
+
+        });
 
 
 
 
 
         var myFunction = function () {
-            var Addres1 = '29851 Aventura';
-            var Addres2 = '';
-            var City = '';
-            var State = 'CA';
-            var ZipCode5 = '92688';
-            var ZipCode4 = '';
+            var Addres1 = document.getElementById("Address1").value;                            
+            var Addres2 = document.getElementById("Address2").value;
+            var City = document.getElementById("City").value;
+            var State = document.getElementById("State").value;                          
+            var ZipCode5 = document.getElementById("ZipCode5").value;                                       
+            var ZipCode4 = document.getElementById("ZipCode4").value;
           
+            if (Addres1 == ""  && ZipCode4 == "") {
+
+                $("#container").append("you are missing zip or address");
+
+            } else {
 
 
-            $.ajax({
+                $.ajax({
 
-                type: "GET",
-                url: "http://production.shippingapis.com/ShippingAPITest.dll?API=Verify&XML=<AddressValidateRequest USERID='829STUDE2294'><Revision>1</Revision><Address ID='0'><Address1>"+Addres1+"</Address1><Address2>"+Addres2+"</Address2><City>"+City+"</City><State>CA</State><Zip5>"+ZipCode5+"</Zip5><Zip4>"+ZipCode4+"</Zip4></Address></AddressValidateRequest>",
-                dataType: "xml",
-                success: function (response) {
-                   // console.log($(response).find("ReturnText").text());
-                   // $("#container").append($(response).find("ReturnText").text());
-                    console.log(response);
-                }
-            })
+                    type: "GET",
+                    url: "http://production.shippingapis.com/ShippingAPITest.dll?API=Verify&XML=<AddressValidateRequest USERID='829STUDE2294'><Revision>1</Revision><Address ID='0'><Address1>" + Addres1 + "</Address1><Address2>" + Addres2 + "</Address2><City>" + City + "</City><State>CA</State><Zip5>" + ZipCode5 + "</Zip5><Zip4>" + ZipCode4 + "</Zip4></Address></AddressValidateRequest>",
+                    dataType: "xml",
+                    success: function (response, err) {
+                        console.log($(response).find("ReturnText").text());
+                       
+                      
+                        console.log(response);
+                        
+
+                        if ($(response).find("Description").text().length == 0) {
+
+                            $("#container").append("Your Address Was Found! Congrats");
+                            $("#moreInfo").append("YOu are welcome");
+                            $("#Cor_Address").append($(response).find("Address2").text());
+                            $("#Cor_City").append($(response).find("City").text());
+                            $("#Cor_State").append($(response).find("State").text());
+                            $("#Cor_Zip5").append($(response).find("Zip5").text());
+                            $("#Cor_Zip4").append($(response).find("Zip4").text());
+
+                        } else {
+                            $("#container").append("Your Address Wasn't Found! sorry try again and refresh");
+                         
+                            $("#container").append("");
+                            $("#moreInfo").append("");
+                            $("#Cor_Address").append("");
+                            $("#Cor_City").append("");
+                            $("#Cor_State").append("");
+                            $("#Cor_Zip5").append("");
+                            $("#Cor_Zip4").append("");
+                        }
+                    }
+                })
+
+
+
+
+            }
+
+            
 
 
 
@@ -68,4 +160,3 @@
 }
 
 
-h1>
