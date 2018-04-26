@@ -29,13 +29,19 @@
 
 
         var myFunction = function () {
-
+            var Addres1 = '29851 Aventura';
+            var Addres2 = '';
+            var City = '';
+            var State = 'CA';
+            var ZipCode5 = '92688';
+            var ZipCode4 = '';
+          
 
 
             $.ajax({
 
                 type: "GET",
-                url: "http://production.shippingapis.com/ShippingAPITest.dll?API=Verify&XML=<AddressValidateRequest USERID='829STUDE2294'><Revision>1</Revision><Address ID='0'><Address1></Address1><Address2>29851 Aventura </Address2><City></City><State>CA</State><Zip5>92688</Zip5><Zip4></Zip4></Address></AddressValidateRequest>",
+                url: "http://production.shippingapis.com/ShippingAPITest.dll?API=Verify&XML=<AddressValidateRequest USERID='829STUDE2294'><Revision>1</Revision><Address ID='0'><Address1>"+Addres1+"</Address1><Address2>"+Addres2+"</Address2><City>"+City+"</City><State>CA</State><Zip5>"+ZipCode5+"</Zip5><Zip4>"+ZipCode4+"</Zip4></Address></AddressValidateRequest>",
                 dataType: "xml",
                 success: function (response) {
                    // console.log($(response).find("ReturnText").text());
