@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Address Form";
+}
+
+@model WebApplication1.Models.FormData
+
+<!-- Weakly typed synchronous form -->
+<h2>Input the Address</h2>
+<form action="/Form/FormOne" method="post">
+    Address 1:
+    <input type="text" name="Address1" /><br />
+    Address 2:
+    <input type="text" name="Address2" /><br />
+    City:
+    <input type="text" name="City" /><br />
+    State:
+    <input type="text" name="State" /><br />
+    ZipCode:
+    <input type="text" name="ZipCode" />
+
+    <button onclick="submit(Address1,Address2,City,State,ZipCode)">Submit</button>
+</form>
+
+
+
+
+<script>
+
+    //console log function
+
+
+    
+    function submit(Address1,Address2,City,State,ZipCode) {
+        
+ 
+    }
+    
+    //displays an alert message if strongly typed asynchronous form successfully posted to the server
+    function onSuccess() { alert("Successfully posted to server!"); }
+   
+ 
+     
+   
+
+    
+</script>
